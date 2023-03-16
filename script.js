@@ -101,5 +101,97 @@ btnLogin.addEventListener("click", (e) => {
       currentAccount.owner.split(" ")[0]
     }`;
     containerApp.style.opacity = 1;
+    // limpiar campos y quitar foco
+    inputLoginUsername.value = inputLoginPin.value = "";
+    inputLoginPin.blur();
+
+    // mostrar datos
+    updateUI(currentAccount);
   }
 });
+
+const updateUI = (currentAccount) => {
+  // mostrar movimientos
+  const { movements } = currentAccount;
+  displayMovements(movements);
+
+  // mostrar balance
+  calcAndDisplayBalance(movements);
+
+  // mostrar resumen
+  calcAndDisplaySummary(currentAccount);
+};
+
+const calcAndDisplayBalance = (movements) => {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance.toFixed(2)}€`;
+};
+
+const calcAndDisplaySummary = (currentAccount) => {
+  // obtener movimientos
+  const { movements } = currentAccount;
+  // const movements = currentAccount.movements;
+  const incomes = movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
+  const outcomes = movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(outcomes).toFixed(2)}€`;
+  // const summary = Number(incomes + outcomes);
+  // console.log(summary);
+
+  // cálculo de intereses:
+  // 1. Teniendo en cuenta solo ingresos superiores a 100€
+  // y que el interés es de cada usuario
+  // y que los intereses sean superiores a 2€
+  const interest = movements
+    .filter((mov) => mov > 100)
+    .map((mov) => (mov * currentAccount.interestRate) / 100)
+    .filter((int) => int >= 2)
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest.toFixed(2)}`;
+};
+
+const displayMovements = (movements) => {
+  // insertarlos con insertAdjacentHTML
+  // comprobar si son positivos o negativos para la inserción
+
+  //foreach para recorrer los movimientos
+  //ternario para ver si es depósito o retiro
+  // limpiar movimientos antiguos:
+  containerMovements.innerHTML = "";
+  // let count = 1;
+  // count++; Esta es otra forma de ir incrementando un valor 1 a 1
+
+  // SOLUCIÓN DADA POR EL PROFESOR
+  movements.forEach((mov, i) => {
+    const type = mov > 0 ? "deposit" : "withdrawal";
+    const movHTML = `<div class="movements__row">
+                      <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+                      <div class="movements__date">${new Date().toLocaleDateString()}</div>
+                      <div class="movements__value">${mov.toFixed(2)}€</div>
+                    </div>`;
+    containerMovements.insertAdjacentHTML("afterbegin", movHTML);
+  });
+
+  // PRIMERA SOLUCIÓN HECHA POR NOSOTROS
+  // movements.forEach((mov, i) => {
+  //   const movHTML = `<div class="movements__row">
+  //                     <div class="movements__type ${
+  //                       mov > 0
+  //                         ? "movements__type--deposit"
+  //                         : "movements__type--withdrawal"
+  //                     }">${i + 1} ${mov > 0 ? "deposit" : "withdrawal"}</div>
+  //                     <div class="movements__date"></div>
+  //                     <div class="movements__value">${mov}€</div>
+  //                   </div>`;
+  //   console.log(movHTML);
+  //   containerMovements.insertAdjacentHTML("afterbegin", movHTML);
+  // });
+
+  // containerMovements
+};
