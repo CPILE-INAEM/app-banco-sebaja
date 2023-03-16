@@ -34,6 +34,7 @@ const account4 = {
 };
 
 const accounts = [account1, account2, account3, account4];
+let activeAccount={};
 
 // Elements
 const labelWelcome = document.querySelector(".welcome");
@@ -74,7 +75,6 @@ const createUsernames = () => {
 };
 
 createUsernames();
-console.log(accounts);
 
 //btnLogin.addEventListener("click", createUsernames);
 btnLogin.addEventListener("click", (e) => {
@@ -82,7 +82,7 @@ btnLogin.addEventListener("click", (e) => {
   e.preventDefault();
   const username = inputLoginUsername.value;
   const pin = Number(inputLoginPin.value);
-  console.log(`Intengo login con el usuario ${username} y el pin ${pin}`);
+  console.log(`Intento login con el usuario ${username} y el pin ${pin}`);
 
   // recorrer todos los accounts y buscar el que coincida con el username
   //y luego comparar el pin
@@ -90,8 +90,6 @@ btnLogin.addEventListener("click", (e) => {
     (account) => account.username === username
   );
   // puede ser null si el usuario no existe
-
-  console.log("Current account:", currentAccount);
 
   // currentAccount && currentAccount.pin === currentAccount?.pin
   if (currentAccount?.pin === pin) {
@@ -104,9 +102,32 @@ btnLogin.addEventListener("click", (e) => {
     // limpiar campos y quitar foco
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
+    activeAccount=currentAccount;
 
     // mostrar datos
     updateUI(currentAccount);
+  }
+});
+
+btnTransfer.addEventListener("click",(e)=>{
+  e.preventDefault();
+  //usuario a transferir
+  const transferTo=inputTransferTo.value;
+  //cantidad a transferir
+  const transferAmount=Number(inputTransferAmount.value);
+  //cuenta a transferir
+  const accountTo = accounts.find((account) => account.owner === transferTo);
+  const balance = activeAccount.movements.reduce((acc, mov) => acc + mov, 0);
+
+
+  //si la cuenta a transferir existe, la cantidad a transferir es mayor que 0 y menor que el balance
+  if(accountTo && transferAmount>0 && balance>transferAmount){
+    accountTo.movements.push(transferAmount);
+    activeAccount.movements.push(-transferAmount);
+    //vaciar campos
+    inputTransferTo.value=inputTransferAmount.value="";
+    alert("Transferencia realizada con exito");
+    updateUI(activeAccount);
   }
 });
 
