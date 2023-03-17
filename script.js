@@ -29,10 +29,6 @@ const account4 = {
 };
 const accounts = [account1, account2, account3, account4];
 let activeAccount = {};
-<<<<<<< HEAD
-=======
-
->>>>>>> transferencias
 // Elements
 const labelWelcome = document.querySelector(".welcome");
 const labelDate = document.querySelector(".date");
@@ -66,10 +62,6 @@ const createUsernames = () => {
   });
 };
 createUsernames();
-<<<<<<< HEAD
-=======
-
->>>>>>> transferencias
 //btnLogin.addEventListener("click", createUsernames);
 btnLogin.addEventListener("click", (e) => {
   // Prevent form from submitting
@@ -77,20 +69,12 @@ btnLogin.addEventListener("click", (e) => {
   const username = inputLoginUsername.value;
   const pin = Number(inputLoginPin.value);
   console.log(`Intento login con el usuario ${username} y el pin ${pin}`);
-<<<<<<< HEAD
-=======
-
->>>>>>> transferencias
   // recorrer todos los accounts y buscar el que coincida con el username
   //y luego comparar el pin
   const currentAccount = accounts.find(
     (account) => account.username === username
   );
   // puede ser null si el usuario no existe
-<<<<<<< HEAD
-=======
-
->>>>>>> transferencias
   // currentAccount && currentAccount.pin === currentAccount?.pin
   if (currentAccount?.pin === pin) {
     console.log("Login correcto");
@@ -103,10 +87,6 @@ btnLogin.addEventListener("click", (e) => {
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
     activeAccount = currentAccount;
-<<<<<<< HEAD
-=======
-
->>>>>>> transferencias
     // mostrar datos
     updateUI(currentAccount);
   }
