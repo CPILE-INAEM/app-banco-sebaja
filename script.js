@@ -34,7 +34,7 @@ const account4 = {
 };
 
 const accounts = [account1, account2, account3, account4];
-let activeAccount={};
+let activeAccount = {};
 
 // Elements
 const labelWelcome = document.querySelector(".welcome");
@@ -102,30 +102,34 @@ btnLogin.addEventListener("click", (e) => {
     // limpiar campos y quitar foco
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
-    activeAccount=currentAccount;
+    activeAccount = currentAccount;
 
     // mostrar datos
     updateUI(currentAccount);
   }
 });
 
-btnTransfer.addEventListener("click",(e)=>{
+//metodo para transferencias
+btnTransfer.addEventListener("click", (e) => {
   e.preventDefault();
   //usuario a transferir
-  const transferTo=inputTransferTo.value;
+  const transferTo = inputTransferTo.value;
   //cantidad a transferir
-  const transferAmount=Number(inputTransferAmount.value);
+  const transferAmount = Number(inputTransferAmount.value);
   //cuenta a transferir
   const accountTo = accounts.find((account) => account.owner === transferTo);
   const balance = activeAccount.movements.reduce((acc, mov) => acc + mov, 0);
 
-
   //si la cuenta a transferir existe, la cantidad a transferir es mayor que 0 y menor que el balance
-  if(accountTo && transferAmount>0 && balance>transferAmount){
+  if (!accountTo) {
+    alert("El beneficiario no existe.");
+  } else if (transferAmount <= 0 || balance < transferAmount) {
+    alert("La cantidad no puede ser negativa ni superior al balance.");
+  } else {
     accountTo.movements.push(transferAmount);
     activeAccount.movements.push(-transferAmount);
     //vaciar campos
-    inputTransferTo.value=inputTransferAmount.value="";
+    inputTransferTo.value = inputTransferAmount.value = "";
     alert("Transferencia realizada con exito");
     updateUI(activeAccount);
   }
