@@ -29,6 +29,10 @@ const account4 = {
 };
 const accounts = [account1, account2, account3, account4];
 let activeAccount = {};
+<<<<<<< HEAD
+=======
+
+>>>>>>> transferencias
 // Elements
 const labelWelcome = document.querySelector(".welcome");
 const labelDate = document.querySelector(".date");
@@ -62,6 +66,10 @@ const createUsernames = () => {
   });
 };
 createUsernames();
+<<<<<<< HEAD
+=======
+
+>>>>>>> transferencias
 //btnLogin.addEventListener("click", createUsernames);
 btnLogin.addEventListener("click", (e) => {
   // Prevent form from submitting
@@ -69,12 +77,20 @@ btnLogin.addEventListener("click", (e) => {
   const username = inputLoginUsername.value;
   const pin = Number(inputLoginPin.value);
   console.log(`Intento login con el usuario ${username} y el pin ${pin}`);
+<<<<<<< HEAD
+=======
+
+>>>>>>> transferencias
   // recorrer todos los accounts y buscar el que coincida con el username
   //y luego comparar el pin
   const currentAccount = accounts.find(
     (account) => account.username === username
   );
   // puede ser null si el usuario no existe
+<<<<<<< HEAD
+=======
+
+>>>>>>> transferencias
   // currentAccount && currentAccount.pin === currentAccount?.pin
   if (currentAccount?.pin === pin) {
     console.log("Login correcto");
@@ -87,6 +103,10 @@ btnLogin.addEventListener("click", (e) => {
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
     activeAccount = currentAccount;
+<<<<<<< HEAD
+=======
+
+>>>>>>> transferencias
     // mostrar datos
     updateUI(currentAccount);
   }
@@ -130,6 +150,32 @@ const requestLoan = function () {
     alert("No ha ingresado un valor válido");
   }
 };
+
+//metodo para transferencias
+btnTransfer.addEventListener("click", (e) => {
+  e.preventDefault();
+  //usuario a transferir
+  const transferTo = inputTransferTo.value;
+  //cantidad a transferir
+  const transferAmount = Number(inputTransferAmount.value);
+  //cuenta a transferir
+  const accountTo = accounts.find((account) => account.owner === transferTo);
+  const balance = activeAccount.movements.reduce((acc, mov) => acc + mov, 0);
+
+  //si la cuenta a transferir existe, la cantidad a transferir es mayor que 0 y menor que el balance
+  if (!accountTo) {
+    alert("El beneficiario no existe.");
+  } else if (transferAmount <= 0 || balance < transferAmount) {
+    alert("La cantidad no puede ser negativa ni superior al balance.");
+  } else {
+    accountTo.movements.push(transferAmount);
+    activeAccount.movements.push(-transferAmount);
+    //vaciar campos
+    inputTransferTo.value = inputTransferAmount.value = "";
+    alert("Transferencia realizada con exito");
+    updateUI(activeAccount);
+  }
+});
 
 const updateUI = (currentAccount) => {
   // mostrar movimientos
