@@ -91,25 +91,27 @@ btnLogin.addEventListener("click", (e) => {
     updateUI(currentAccount);
   }
 });
-btnTransfer.addEventListener("click", (e) => {
-  e.preventDefault();
-  //usuario a transferir
-  const transferTo = inputTransferTo.value;
-  //cantidad a transferir
-  const transferAmount = Number(inputTransferAmount.value);
-  //cuenta a transferir
-  const accountTo = accounts.find((account) => account.owner === transferTo);
-  const balance = activeAccount.movements.reduce((acc, mov) => acc + mov, 0);
-  //si la cuenta a transferir existe, la cantidad a transferir es mayor que 0 y menor que el balance
-  if (accountTo && transferAmount > 0 && balance > transferAmount) {
-    accountTo.movements.push(transferAmount);
-    activeAccount.movements.push(-transferAmount);
-    //vaciar campos
-    inputTransferTo.value = inputTransferAmount.value = "";
-    alert("Transferencia realizada con exito");
-    updateUI(activeAccount);
-  }
-});
+
+// HE COMENTADO ESTA FUNCIÓN DE TRANSFERENCIA POR APARECER DUPLICADA, es una versión anterior
+// btnTransfer.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   //usuario a transferir
+//   const transferTo = inputTransferTo.value;
+//   //cantidad a transferir
+//   const transferAmount = Number(inputTransferAmount.value);
+//   //cuenta a transferir
+//   const accountTo = accounts.find((account) => account.owner === transferTo);
+//   const balance = activeAccount.movements.reduce((acc, mov) => acc + mov, 0);
+//   //si la cuenta a transferir existe, la cantidad a transferir es mayor que 0 y menor que el balance
+//   if (accountTo && transferAmount > 0 && balance > transferAmount) {
+//     accountTo.movements.push(transferAmount);
+//     activeAccount.movements.push(-transferAmount);
+//     //vaciar campos
+//     inputTransferTo.value = inputTransferAmount.value = "";
+//     alert("Transferencia realizada con exito");
+//     updateUI(activeAccount);
+//   }
+// });
 
 // FUNCIÓN PRÉSTAMOS
 btnLoan.addEventListener("click", (e) => {
@@ -157,6 +159,7 @@ btnTransfer.addEventListener("click", (e) => {
   }
 });
 
+// FUNCIÓN ACTUALIZAR USER INTERFACE
 const updateUI = (currentAccount) => {
   // mostrar movimientos
   const { movements } = currentAccount;
@@ -166,6 +169,7 @@ const updateUI = (currentAccount) => {
   // mostrar resumen
   calcAndDisplaySummary(currentAccount);
 };
+
 const calcAndDisplayBalance = (movements) => {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${balance.toFixed(2)}€`;
