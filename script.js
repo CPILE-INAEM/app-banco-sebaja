@@ -69,31 +69,33 @@ const createUsernames = () => {
 const randomDate = () => {
   const fechaInicio = new Date(1970, 0, 1); // 1 de enero de 1970
   const fechaFin = new Date(); // Fecha actual
-  const fechaAleatoria = new Date(fechaInicio.getTime() + Math.random() * (fechaFin.getTime() - fechaInicio.getTime()));
-  const anio=fechaAleatoria.getFullYear();
-  const mes=fechaAleatoria.getMonth()+1;
-  const dia=fechaAleatoria.getDate();
+  const fechaAleatoria = new Date(
+    fechaInicio.getTime() +
+      Math.random() * (fechaFin.getTime() - fechaInicio.getTime())
+  );
+  const anio = fechaAleatoria.getFullYear();
+  const mes = fechaAleatoria.getMonth() + 1;
+  const dia = fechaAleatoria.getDate();
   return `${anio}-${mes}-${dia}`;
-}
+};
 
-const createDates = () =>{
-  accounts.forEach((account)=>{
-    const tempMovements=[];
-    account.movements.forEach((movement)=>{
-      const fecha=randomDate();
-      const cantidad=movement;
-      const newMovement={};
-      newMovement.date=fecha;
-      newMovement.value=cantidad;
+const createDates = () => {
+  accounts.forEach((account) => {
+    const tempMovements = [];
+    account.movements.forEach((movement) => {
+      const fecha = randomDate();
+      const cantidad = movement;
+      const newMovement = {};
+      newMovement.date = fecha;
+      newMovement.value = cantidad;
       tempMovements.push(newMovement);
     });
-    account.movements=tempMovements;
-  })
+    account.movements = tempMovements;
+  });
 };
 
 createUsernames();
 createDates();
-
 
 // FUNCIÓN LOGIN
 btnLogin.addEventListener("click", (e) => {
@@ -135,22 +137,24 @@ btnTransfer.addEventListener("click", (e) => {
   const transferAmount = Number(inputTransferAmount.value);
   //cuenta a transferir
   const accountTo = accounts.find((account) => account.owner === transferTo);
-  const balance = activeAccount.movements.reduce((acc, mov) => acc + mov.value, 0);
+  const balance = activeAccount.movements.reduce(
+    (acc, mov) => acc + mov.value,
+    0
+  );
   //si la cuenta a transferir existe, la cantidad a transferir es mayor que 0 y menor que el balance
-  if (!accountTo)
-    alert ("El benificiario no existe.")
+  if (!accountTo) alert("El benificiario no existe.");
   else if (transferAmount <= 0 || balance < transferAmount)
-    alert ("La cantidad introducida no es correcta.")
+    alert("La cantidad introducida no es correcta.");
   else {
-    const tempMovement={}
-    const fecha= new Date();
-    const anio=fecha.getFullYear();
-    const mes=fecha.getMonth()+1;
-    const dia=fecha.getDate();
-    tempMovement.value=transferAmount;
-    tempMovement.date=`${anio}-${mes}-${dia}`;
+    const tempMovement = {};
+    const fecha = new Date();
+    const anio = fecha.getFullYear();
+    const mes = fecha.getMonth() + 1;
+    const dia = fecha.getDate();
+    tempMovement.value = transferAmount;
+    tempMovement.date = `${anio}-${mes}-${dia}`;
     accountTo.movements.push(tempMovement);
-    tempMovement.value=-transferAmount
+    tempMovement.value = -transferAmount;
     activeAccount.movements.push(tempMovement);
     //vaciar campos
     inputTransferTo.value = inputTransferAmount.value = "";
@@ -178,7 +182,6 @@ const requestLoan = function () {
     alert("No ha ingresado un valor válido");
   }
 };
-
 
 // FUNCIÓN ACTUALIZAR USER INTERFACE
 const updateUI = (currentAccount) => {
@@ -216,8 +219,8 @@ const calcAndDisplaySummary = (currentAccount) => {
   const interest = movements
     .filter((mov) => mov.value > 100)
     .map((mov) => (mov.value * currentAccount.interestRate) / 100)
-    .filter((int) => int.value >= 2)
-    .reduce((acc, int) => acc + int.value, 0);
+    .filter((int) => int >= 2)
+    .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest.toFixed(2)}`;
 };
 const displayMovements = (movements) => {
@@ -237,7 +240,9 @@ const displayMovements = (movements) => {
       i + 1
     } ${type}</div>
                       <div class="movements__date">${mov.date}</div>
-                      <div class="movements__value">${mov.value.toFixed(2)}€</div>
+                      <div class="movements__value">${mov.value.toFixed(
+                        2
+                      )}€</div>
                     </div>`;
     containerMovements.insertAdjacentHTML("afterbegin", movHTML);
   });
