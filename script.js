@@ -169,17 +169,27 @@ btnLoan.addEventListener("click", (e) => {
   requestLoan();
 });
 const requestLoan = function () {
+  // importe préstamo
   const loan = Number(inputLoanAmount.value);
+
   // const balance = activeAccount.movements.reduce((acc, mov) => acc + mov, 0);
   // let totalLoan = loan + balance;
-  if (loan > 0) {
-    activeAccount.movements.push(loan);
+  if (loan <= 0) {
+    alert("No ha ingresado un valor válido");
+  } else {
+    const loanMovement = {};
+    const fecha = new Date();
+    const anio = fecha.getFullYear();
+    const mes = fecha.getMonth() + 1;
+    const dia = fecha.getDate();
+    loanMovement.value = loan;
+    loanMovement.date = `${anio}-${mes}-${dia}`;
+    activeAccount.movements.push(loanMovement);
+    // vaciar campos
     inputLoanAmount.value = "";
-    updateUI(activeAccount);
     // labelBalance.textContent = `${loan.toFixed(2)}€`;
     alert("Préstamo solicitado con éxito");
-  } else {
-    alert("No ha ingresado un valor válido");
+    updateUI(activeAccount);
   }
 };
 
