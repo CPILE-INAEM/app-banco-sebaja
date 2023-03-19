@@ -193,6 +193,38 @@ const requestLoan = function () {
   }
 };
 
+// FUNCIÓN SORT
+const fnSort = () => {
+  // const {
+  //   movements: { date: fecha },
+  // } = activeAccount;
+  // console.log(fecha);
+  const { movements } = activeAccount;
+  console.log(typeof activeAccount.movements[0].date);
+  const sortDates = movements.sort((a, b) => a.value - b.value);
+  console.log(sortDates);
+
+  containerMovements.innerHTML = "";
+  movements.forEach((mov, i) => {
+    const type = mov.value > 0 ? "deposit" : "withdrawal";
+    const movHTML = `<div class="movements__row">
+                      <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+                      <div class="movements__date">${mov.date}</div>
+                      <div class="movements__value">${mov.value.toFixed(
+                        2
+                      )}€</div>
+                    </div>`;
+    containerMovements.insertAdjacentHTML("afterbegin", movHTML);
+  });
+};
+
+btnSort.addEventListener("click", (e) => {
+  e.preventDefault();
+  fnSort();
+});
+
 // FUNCIÓN ACTUALIZAR USER INTERFACE
 const updateUI = (currentAccount) => {
   // mostrar movimientos
