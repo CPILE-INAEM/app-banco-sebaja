@@ -193,21 +193,36 @@ const requestLoan = function () {
   }
 };
 
+let sort = true;
 // FUNCIÓN SORT
 const fnSort = () => {
-  const { movements } = activeAccount;
-  movements.sort(function (a, b) {
-    // Convertir las fechas a objetos Date
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
+  if (sort) {
+    const { movements } = activeAccount;
+    movements.sort(function (a, b) {
+      // Convertir las fechas a objetos Date
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      sort = false;
+      // Ordenar de forma descendente (de más reciente a más antiguo)
+      return dateA - dateB;
+    });
 
-    // Ordenar de forma descendente (de más reciente a más antiguo)
-    return dateA - dateB;
-  });
+    displayMovements(movements);
+  } else {
+    const { movements } = activeAccount;
+    movements.sort(function (a, b) {
+      // Convertir las fechas a objetos Date
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      sort = true;
 
-  displayMovements(movements);
+      // Ordenar de forma descendente (de más reciente a más antiguo)
+      return dateB - dateA;
+    });
+
+    displayMovements(movements);
+  }
 };
-
 btnSort.addEventListener("click", (e) => {
   e.preventDefault();
   fnSort();
