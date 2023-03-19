@@ -205,20 +205,7 @@ const fnSort = () => {
     return dateA - dateB;
   });
 
-  containerMovements.innerHTML = "";
-  movements.forEach((mov, i) => {
-    const type = mov.value > 0 ? "deposit" : "withdrawal";
-    const movHTML = `<div class="movements__row">
-                      <div class="movements__type movements__type--${type}">${
-      i + 1
-    } ${type}</div>
-                      <div class="movements__date">${mov.date}</div>
-                      <div class="movements__value">${mov.value.toFixed(
-                        2
-                      )}€</div>
-                    </div>`;
-    containerMovements.insertAdjacentHTML("afterbegin", movHTML);
-  });
+  displayMovements(movements);
 };
 
 btnSort.addEventListener("click", (e) => {
