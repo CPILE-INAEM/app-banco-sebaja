@@ -146,16 +146,17 @@ btnTransfer.addEventListener("click", (e) => {
   else if (transferAmount <= 0 || balance < transferAmount)
     alert("La cantidad introducida no es correcta.");
   else {
-    const tempMovement = {};
+    const movement = {};
+    const movementTo = {};
     const fecha = new Date();
     const anio = fecha.getFullYear();
     const mes = fecha.getMonth() + 1;
     const dia = fecha.getDate();
-    tempMovement.date = `${anio}-${mes}-${dia}`;
-    tempMovement.value = transferAmount;
-    accountTo.movements.push(tempMovement);
-    tempMovement.value = -transferAmount;
-    activeAccount.movements.push(tempMovement);
+    movement.date = movementTo.date = `${anio}-${mes}-${dia}`;
+    movement.value = -transferAmount;
+    movementTo.value = transferAmount;
+    accountTo.movements.push(movementTo);
+    activeAccount.movements.push(movement);
     //vaciar campos
     inputTransferTo.value = inputTransferAmount.value = "";
     alert("Transferencia realizada con exito");
