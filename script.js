@@ -142,7 +142,7 @@ btnTransfer.addEventListener("click", (e) => {
     0
   );
   //si la cuenta a transferir existe, la cantidad a transferir es mayor que 0 y menor que el balance
-  if (!accountTo) alert("El benificiario no existe.");
+  if (!accountTo) alert("El beneficiario no existe.");
   else if (transferAmount <= 0 || balance < transferAmount)
     alert("La cantidad introducida no es correcta.");
   else {
@@ -151,8 +151,8 @@ btnTransfer.addEventListener("click", (e) => {
     const anio = fecha.getFullYear();
     const mes = fecha.getMonth() + 1;
     const dia = fecha.getDate();
-    tempMovement.value = transferAmount;
     tempMovement.date = `${anio}-${mes}-${dia}`;
+    tempMovement.value = transferAmount;
     accountTo.movements.push(tempMovement);
     tempMovement.value = -transferAmount;
     activeAccount.movements.push(tempMovement);
@@ -182,8 +182,8 @@ const requestLoan = function () {
     const anio = fecha.getFullYear();
     const mes = fecha.getMonth() + 1;
     const dia = fecha.getDate();
-    loanMovement.value = loan;
     loanMovement.date = `${anio}-${mes}-${dia}`;
+    loanMovement.value = loan;
     activeAccount.movements.push(loanMovement);
     // vaciar campos
     inputLoanAmount.value = "";
@@ -195,14 +195,15 @@ const requestLoan = function () {
 
 // FUNCIÓN SORT
 const fnSort = () => {
-  // const {
-  //   movements: { date: fecha },
-  // } = activeAccount;
-  // console.log(fecha);
   const { movements } = activeAccount;
-  console.log(typeof activeAccount.movements[0].date);
-  const sortDates = movements.sort((a, b) => a.value - b.value);
-  console.log(sortDates);
+  movements.sort(function (a, b) {
+    // Convertir las fechas a objetos Date
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+
+    // Ordenar de forma descendente (de más reciente a más antiguo)
+    return dateA - dateB;
+  });
 
   containerMovements.innerHTML = "";
   movements.forEach((mov, i) => {
