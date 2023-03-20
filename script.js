@@ -197,8 +197,8 @@ const requestLoan = function () {
 let sort = true;
 // FUNCIÓN SORT
 const fnSort = () => {
+  const { movements } = activeAccount;
   if (sort) {
-    const { movements } = activeAccount;
     movements.sort(function (a, b) {
       // Convertir las fechas a objetos Date
       const dateA = new Date(a.date);
@@ -207,10 +207,7 @@ const fnSort = () => {
       // Ordenar de forma descendente (de más reciente a más antiguo)
       return dateA - dateB;
     });
-
-    displayMovements(movements);
   } else {
-    const { movements } = activeAccount;
     movements.sort(function (a, b) {
       // Convertir las fechas a objetos Date
       const dateA = new Date(a.date);
@@ -220,9 +217,8 @@ const fnSort = () => {
       // Ordenar de forma descendente (de más reciente a más antiguo)
       return dateB - dateA;
     });
-
-    displayMovements(movements);
   }
+  displayMovements(movements);
 };
 btnSort.addEventListener("click", (e) => {
   e.preventDefault();
