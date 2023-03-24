@@ -67,7 +67,7 @@ const createUsernames = () => {
 };
 
 const randomDate = () => {
-  const fechaInicio = new Date(1970, 0, 1); // 1 de enero de 1970
+  const fechaInicio = new Date(2010, 0, 1); // 1 de enero de 1970
   const fechaFin = new Date(); // Fecha actual
   const fechaAleatoria = new Date(
     fechaInicio.getTime() +
@@ -265,6 +265,23 @@ const calcAndDisplaySummary = (currentAccount) => {
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest.toFixed(2)}`;
 };
+const haceXdias = (fecha) => {
+  const fechaActual = new Date(fecha);
+  const now = new Date();
+  let tiempoTranscurrido = now.getTime() - fechaActual.getTime();
+  const diasTranscurridos = Math.floor(
+    tiempoTranscurrido / (1000 * 60 * 60 * 24)
+  );
+  console.log(diasTranscurridos);
+  if (diasTranscurridos <= 30) return `Hace ${diasTranscurridos} dias`;
+  else if (diasTranscurridos > 30 && diasTranscurridos <= 365) {
+    tiempoTranscurrido = Math.floor(diasTranscurridos / 30);
+    return `Hace ${tiempoTranscurrido} meses`;
+  } else {
+    tiempoTranscurrido = Math.floor(diasTranscurridos / 365);
+    return `Hace ${tiempoTranscurrido} años`;
+  }
+};
 const displayMovements = (movements) => {
   // insertarlos con insertAdjacentHTML
   // comprobar si son positivos o negativos para la inserción
@@ -281,7 +298,7 @@ const displayMovements = (movements) => {
                       <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-                      <div class="movements__date">${mov.date}</div>
+                      <div class="movements__date">${haceXdias(mov.date)}</div>
                       <div class="movements__value">${mov.value.toFixed(
                         2
                       )}€</div>
