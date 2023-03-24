@@ -79,6 +79,15 @@ const randomDate = () => {
   return `${anio}-${mes}-${dia}`;
 };
 
+const randomAmount = () => {
+  const minValue = 1;
+  const maxValue = 1000;
+  const signo = Math.trunc(Math.random() * 2) + 1;
+  const randomValue = Math.trunc(Math.random() * maxValue) + minValue;
+  const cantidad = signo == 1 ? randomValue : -randomValue;
+  return cantidad;
+};
+
 const createMovements = () => {
   accounts.forEach((account) => {
     const tempMovements = [];
@@ -92,15 +101,6 @@ const createMovements = () => {
     });
     account.movements = tempMovements;
   });
-};
-
-const randomAmount = () => {
-  const minValue = 1;
-  const maxValue = 1000;
-  const signo = Math.trunc(Math.random() * 2) + 1;
-  const randomValue = Math.trunc(Math.random() * maxValue) + minValue;
-  const cantidad = signo == 1 ? randomValue : -randomValue;
-  return cantidad;
 };
 
 createUsernames();
@@ -134,6 +134,30 @@ btnLogin.addEventListener("click", (e) => {
     console.log(activeAccount);
     // mostrar datos
     updateUI(currentAccount);
+  }
+});
+
+// FUNCIÓN CERRAR CUENTA
+btnClose.addEventListener("click", (e) => {
+  e.preventDefault();
+  const username = inputCloseUsername.value;
+  const pin = Number(inputClosePin.value);
+  console.log(username, pin);
+  // recorrer todos los accounts y buscar el que coincida con el username
+  //y luego comparar el pin
+  const currentAccount = accounts.find(
+    (account) => account.username === username
+  );
+  // puede ser null si el usuario no existe
+  // currentAccount && currentAccount.pin === currentAccount?.pin
+  if (currentAccount?.pin === pin) {
+    currentAccount = {};
+    const usuario = currentAccount.owner;
+    alert(`Usuario ${usuario} eliminado`);
+    // cargamos los datos y visualizamos
+
+    containerApp.style.opacity = 0;
+    // limpiar campos y quitar foco
   }
 });
 
@@ -281,7 +305,6 @@ const haceXdias = (fecha) => {
   const diasTranscurridos = Math.floor(
     tiempoTranscurrido / (1000 * 60 * 60 * 24)
   );
-  console.log(diasTranscurridos);
   if (diasTranscurridos <= 30) return `Hace ${diasTranscurridos} dias`;
   else if (diasTranscurridos > 30 && diasTranscurridos <= 365) {
     tiempoTranscurrido = Math.floor(diasTranscurridos / 30);
