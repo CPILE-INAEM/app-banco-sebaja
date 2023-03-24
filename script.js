@@ -79,12 +79,12 @@ const randomDate = () => {
   return `${anio}-${mes}-${dia}`;
 };
 
-const createDates = () => {
+const createMovements = () => {
   accounts.forEach((account) => {
     const tempMovements = [];
-    account.movements.forEach((movement) => {
+    account.movements.forEach(() => {
+      const cantidad = randomAmount();
       const fecha = randomDate();
-      const cantidad = movement;
       const newMovement = {};
       newMovement.date = fecha;
       newMovement.value = cantidad;
@@ -94,8 +94,17 @@ const createDates = () => {
   });
 };
 
+const randomAmount = () => {
+  const minValue = 1;
+  const maxValue = 1000;
+  const signo = Math.trunc(Math.random() * 2) + 1;
+  const randomValue = Math.trunc(Math.random() * maxValue) + minValue;
+  const cantidad = signo == 1 ? randomValue : -randomValue;
+  return cantidad;
+};
+
 createUsernames();
-createDates();
+createMovements();
 
 // FUNCIÓN LOGIN
 btnLogin.addEventListener("click", (e) => {
