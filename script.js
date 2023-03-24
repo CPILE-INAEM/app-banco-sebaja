@@ -330,3 +330,18 @@ const displayMovements = (movements) => {
   // });
   // containerMovements
 };
+
+const timer = document.querySelector(".timer");
+let contador = 60;
+
+const interval = setInterval(() => {
+  timer.textContent = contador;
+  contador--;
+}, 1000);
+
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    containerApp.style.opacity = 0;
+    alert("Sesión expirada, ingrese de nuevo");
+  }, 60000);
+});
