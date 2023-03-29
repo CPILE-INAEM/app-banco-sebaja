@@ -54,6 +54,8 @@ const inputTransferAmount = document.querySelector(".form__input--amount");
 const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
+let logged = false;
+console.log(logged);
 
 // init data
 const createUsernames = () => {
@@ -126,6 +128,8 @@ btnLogin.addEventListener("click", (e) => {
     labelWelcome.textContent = `Bienvenido ${
       currentAccount.owner.split(" ")[0]
     }`;
+    logged = true;
+    console.log(logged);
     containerApp.style.opacity = 1;
     // limpiar campos y quitar foco
     inputLoginUsername.value = inputLoginPin.value = "";
@@ -332,16 +336,22 @@ const displayMovements = (movements) => {
 };
 
 const timer = document.querySelector(".timer");
-let contador = 60;
+timer.textContent = 60;
 
-const interval = setInterval(() => {
-  timer.textContent = contador;
-  contador--;
-}, 1000);
+btnLogin.addEventListener("click", () => {
+  if ((logged = true)) {
+    let contador = 60;
+    setInterval(() => {
+      timer.textContent = contador;
+      contador--;
+    }, 1000);
 
-document.addEventListener("DOMContentLoaded", function () {
-  setTimeout(() => {
-    containerApp.style.opacity = 0;
-    alert("Sesión expirada, ingrese de nuevo");
-  }, 60000);
+    setTimeout(() => {
+      containerApp.style.opacity = 0;
+      logged = false;
+      contador = 0;
+      timer.textContent = contador;
+      alert("Sesión expirada, ingrese de nuevo");
+    }, 60000);
+  }
 });
