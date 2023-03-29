@@ -148,16 +148,20 @@ btnClose.addEventListener("click", (e) => {
   const currentAccount = accounts.find(
     (account) => account.username === username
   );
-  // puede ser null si el usuario no existe
-  // currentAccount && currentAccount.pin === currentAccount?.pin
-  if (currentAccount?.pin === pin) {
-    currentAccount = {};
-    const usuario = currentAccount.owner;
-    alert(`Usuario ${usuario} eliminado`);
-    // cargamos los datos y visualizamos
-
-    containerApp.style.opacity = 0;
-    // limpiar campos y quitar foco
+  if (username === activeAccount.username) {
+    // puede ser null si el usuario no existe
+    // currentAccount && currentAccount.pin === currentAccount?.pin
+    if (currentAccount?.pin === pin) {
+      const usuario = currentAccount.owner;
+      accounts.find((account) => {
+        if (account.username === username) account = {};
+      }),
+        alert(`Usuario ${usuario} eliminado`);
+      // cargamos los datos y visualizamos
+      containerApp.style.opacity = 0;
+      // limpiar campos y quitar foco
+      inputCloseUsername.value = inputClosePin.value = "";
+    }
   }
 });
 
